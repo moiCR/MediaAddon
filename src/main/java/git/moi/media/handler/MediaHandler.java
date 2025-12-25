@@ -1,7 +1,6 @@
 package git.moi.media.handler;
 
 import git.moi.media.MediaPlugin;
-import git.moi.media.menu.MediaMenu;
 import lombok.Getter;
 
 import java.util.HashMap;

@@ -3,7 +3,7 @@ package git.moi.media;
 import git.moi.media.commands.MediaCommand;
 import git.moi.media.handler.MediaHandler;
 import git.moi.media.listener.ChatListener;
-import git.moi.media.menu.MediaMenu;
+import git.moi.media.menu.MediaMenus;
 import git.moi.media.utils.ColorUtil;
 import git.moi.media.utils.spigui.SpiGUI;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class MediaPlugin extends JavaPlugin {
     public SpiGUI spiGUI;
     private MediaHandler mediaHandler;
-    private MediaMenu mediaMenu;
+    private MediaMenus mediaMenus;
 
     @Override
     public void onEnable() {

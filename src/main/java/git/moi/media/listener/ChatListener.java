@@ -2,18 +2,24 @@ package git.moi.media.listener;
 
 import git.moi.media.MediaPlugin;
 import git.moi.media.utils.ColorUtil;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import java.util.regex.Pattern;
 
-
+@Getter
 public class ChatListener implements Listener {
 
     private final MediaPlugin plugin;
+    private final Pattern pattern;
 
     public ChatListener(MediaPlugin plugin){
         this.plugin = plugin;
+        this.pattern = Pattern.compile(
+                "^(https?://)?(www\\\\.)?(youtube\\\\.com|twitch\\\\.tv|tiktok\\\\.com).*$",
+                Pattern.CASE_INSENSITIVE);
     }
 
 
@@ -22,7 +28,6 @@ public class ChatListener implements Listener {
         Player player = e.getPlayer();
         String message = e.getMessage();
 
-        boolean url_checker = false;
         if(!player.hasMetadata("newURL")){
             return;
         }
@@ -30,25 +35,18 @@ public class ChatListener implements Listener {
         e.setCancelled(true);
         if (message.equals("CANCEL")){
             player.removeMetadata("newURL", plugin);
-            plugin.getMediaMenu().selectionMenu(player);
-            plugin.getMediaHandler().getVariant().remove(player.getUniqueId());
+            getPlugin().getMediaMenus().selectionMenu(player);
+            getPlugin().getMediaHandler().getVariant().remove(player.getUniqueId());
             return;
         }
 
-        for (String startWith : plugin.getConfig().getStringList("URL_CHECKER.URLS")){
-            if (message.startsWith(startWith)){
-                url_checker = true;
-                break;
-            }
-        }
-
-        if (!url_checker){
+        if (!getPattern().matcher(message).find()){
             player.sendMessage(ColorUtil.translate(plugin.getConfig().getString("URL_CHECKER.ERROR")));
             return;
         }
 
         player.removeMetadata("newURL", plugin);
-        plugin.getMediaMenu().confirmMenu(player);
-        plugin.getMediaHandler().getUrls().put(player.getUniqueId(), message);
+        getPlugin().getMediaMenus().confirmMenu(player);
+        getPlugin().getMediaHandler().getUrls().put(player.getUniqueId(), message);
     }
 }

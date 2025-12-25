@@ -33,7 +33,7 @@ public class MediaCommand implements CommandExecutor {
             return true;
         }
 
-        plugin.getMediaMenu().selectionMenu(player);
+        plugin.getMediaMenus().selectionMenu(player);
 
         return false;
     }

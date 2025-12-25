@@ -1,5 +1,9 @@
 package git.moi.media.utils;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
+import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,12 +13,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 
 public class ItemBuilder {
     private final ItemStack itemStack;
+    @Getter
     private final ItemMeta itemMeta;
     private Enchantment glow;
 
@@ -115,8 +122,25 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemMeta getItemMeta() {
-        return this.itemMeta;
+    public ItemBuilder setHeadTexture(String textureValue){
+        if (!(this.itemMeta instanceof SkullMeta) || itemStack.getType() != Material.SKULL_ITEM || itemStack.getDurability() != 3) {
+            return this;
+        }
+
+        SkullMeta iconMeta = (SkullMeta) itemMeta;
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        PropertyMap propertyMap = profile.getProperties();
+        propertyMap.put("textures", new Property("texture", textureValue));
+
+        try {
+            Field field = iconMeta.getClass().getDeclaredField("profile");
+            field.setAccessible(true);
+            field.set(iconMeta, profile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return this;
     }
 
     public ItemStack build() {
