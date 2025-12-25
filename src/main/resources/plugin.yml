@@ -1,6 +1,8 @@
 name: MediaAddon
 version: '${project.version}'
 main: git.moi.media.MediaPlugin
+authors:
+  - moiCR
 commands:
   media:
     aliases:

@@ -28,7 +28,7 @@ public final class MediaPlugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&4========&c==================&4========"));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&4&l&nMedia Addon"));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate(""));
-        Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&c&l♥ &cAuthor: &fssnowk"));
+        Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&c&l♥ &cAuthor: " + String.join(", ", getDescription().getAuthors())));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&c&l♥ &cVersion: &f"+ getDescription().getVersion()));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate(""));
         Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&4========&c==================&4========"));
