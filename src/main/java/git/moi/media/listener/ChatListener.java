@@ -22,7 +22,6 @@ public class ChatListener implements Listener {
                 Pattern.CASE_INSENSITIVE);
     }
 
-
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e){
         Player player = e.getPlayer();

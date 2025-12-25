@@ -1,9 +1,8 @@
 name: MediaAddon
 version: '${project.version}'
-main: dev.mythic.media.MediaPlugin
+main: git.moi.media.MediaPlugin
 commands:
   media:
     aliases:
       - stream
       - video
-      - directo
