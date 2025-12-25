@@ -1,0 +1,29 @@
+name: Build MediaAddon Plugin
+on:
+  push:
+    branches: [ "master"]
+  pull_request:
+    branches: [ "master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source code from repository
+        uses: actions/checkout@v4
+
+      - name: Configuring Java Environment
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Construir con Maven (Build)
+        run: mvn -B clean package --file pom.xml
+
+      - name: Saving compiled plugin as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MediaAddon-${{ github.sha }}
+          path: target/*.jar
