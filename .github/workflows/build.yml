@@ -1,15 +1,16 @@
-name: Build MediaAddon Plugin
+name: Build and Release MediaAddon
 on:
   push:
-    branches: [ "master"]
-  pull_request:
-    branches: [ "master"]
+    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - name: Download source code from repository
+      - name: Download source code
         uses: actions/checkout@v4
 
       - name: Configuring Java Environment
@@ -19,11 +20,15 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Construir con Maven (Build)
+      - name: Build with Maven
         run: mvn -B clean package --file pom.xml
 
-      - name: Saving compiled plugin as artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: MediaAddon-${{ github.sha }}
-          path: target/*.jar
+          files: target/*.jar
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
