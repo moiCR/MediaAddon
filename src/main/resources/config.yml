@@ -1,4 +1,3 @@
-
 COMMAND:
   COOLDOWN: "&cYou need to wait {cooldown} seconds to use this command."
   COOLDOWN_TIME: 60 #in seconds
@@ -17,13 +16,6 @@ TYPE_MESSAGE:
     - ""
 
 URL_CHECKER:
-  URLS:
-    - "https://youtube.com/"
-    - "https://twitch.tv/"
-    - "https://tiktok.com/"
-    - "https://www.youtube.com/"
-    - "https://www.twitch.tv/"
-    - "https://www.tiktok.com/"
   ERROR: "&cThat's not a url"
 
 BROADCAST:
@@ -34,7 +26,6 @@ BROADCAST:
     - ""
 
 MENU:
-
   SELECTION_MENU:
     TITLE: "&cSelect an option"
     ROW_SIZE: 3
