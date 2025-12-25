@@ -1,0 +1,45 @@
+package git.moi.media.utils;
+
+import com.google.common.collect.HashBasedTable;
+import lombok.experimental.UtilityClass;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+@UtilityClass
+public class Cooldown {
+
+    private final HashBasedTable<String, UUID, Long> cooldown = HashBasedTable.create();
+    public boolean hasCooldown(String name, Player player) {
+        return cooldown.contains(name, player.getUniqueId()) && cooldown.get(name, player.getUniqueId()) > System.currentTimeMillis();
+    }
+
+    public void setCooldown(String name, Player player, long time) {
+        if (time == 0L) {
+            cooldown.remove(name, player.getUniqueId());
+        }
+        if (time <= 0L) {
+            cooldown.remove(name, player.getUniqueId());
+        }
+        else {
+            cooldown.put(name, player.getUniqueId(), System.currentTimeMillis() + time);
+        }
+    }
+    public void removeCooldown(String name, Player player){
+        cooldown.remove(name, player.getUniqueId());
+    }
+
+
+    public String getCooldown(String name, Player player) {
+        long cooldownLeft = cooldown.get(name, player.getUniqueId()) - System.currentTimeMillis();
+        long totalSecs = cooldownLeft / 1000L;
+        if(TimeUnit.MILLISECONDS.toSeconds(cooldownLeft) >= 60){
+            return String.format("%2d %2d", TimeUnit.MILLISECONDS.toMinutes(cooldownLeft), TimeUnit.MILLISECONDS.toSeconds(cooldownLeft) % 60);
+        }else{
+            return String.format("%2d", TimeUnit.MILLISECONDS.toSeconds(cooldownLeft));
+        }
+    }
+
+
+}
