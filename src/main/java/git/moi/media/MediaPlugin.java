@@ -38,9 +38,4 @@ public final class MediaPlugin extends JavaPlugin {
     public void onDisable() {
 
     }
-
-
-
-
-
 }
